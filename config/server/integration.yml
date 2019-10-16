@@ -1,0 +1,7 @@
+fairsharing:
+  apiUrl: https://fairsharing.org/api
+  apiKey: <enter your API key if you have any>
+biotools:
+  apiUrl: https://bio.tools/api
+tess:
+  apiUrl: https://tess.elixir-europe.org

@@ -1,0 +1,48 @@
+general:
+  clientUrl: http://localhost:8080
+  serviceToken: NlQSNbGvh7EtcpinGnHE9g91
+
+client:
+  appTitle: Local DSW for Biohackathon
+  appTitleShort: DSW (local)
+  welcomeWarning: This is only your **local instance** of DSW!
+  welcomeInfo: Let's hack integrations and DMP templates during [Biohackathon Europe 2019](https://www.biohackathon-europe.org)
+  customMenuLinks:
+  - icon: code
+    newWindow: true
+    title: Biohackathon
+    url: https://www.biohackathon-europe.org
+  - icon: github
+    newWindow: true
+    title: GitHub repo
+    url: https://github.com/ds-wizard/biohackathon-europe
+
+
+database:
+  host: mongo
+  databaseName: dsw-server
+  port: 27017
+  authEnabled: false
+
+jwt:
+  secret: gVoYNuEJuGGAQMIaYw43BN3e
+
+mail:
+  enabled: false
+  name:
+  email:
+  host:
+  port:
+  ssl:
+  authEnabled:
+  username:
+  password:
+
+registry:
+  enabled: false
+
+feedback:
+  enabled: false
+  token:
+  owner:
+  repo:

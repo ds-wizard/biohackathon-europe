@@ -1,0 +1,30 @@
+version: '3'
+services:
+
+  dsw_server:
+    image: datastewardshipwizard/server:1.10.1
+    restart: always
+    ports:
+      - 3000:3000
+    volumes:
+      - ./config/server/application.yml:/dsw/config/application.yml
+      - ./config/server/integration.yml:/dsw/config/integration.yml
+      - ./dmp-templates:/dsw/templates/dmp:ro
+
+  dsw_client:
+    image: datastewardshipwizard/client:1.10.1
+    restart: always
+    ports:
+      - 8080:80
+    environment:
+      - API_URL=http://localhost:3000
+    volumes:
+      - ./config/client/variables.scss:/customizations/variables.scss
+
+  mongo:
+      image: mongo:4.0.12
+      restart: always
+      ports:
+        - 27017:27017
+      volumes:
+          - ./database/data:/data/db
