@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>DSW: Example Template for Hackathon</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/atom-one-light.min.css" integrity="sha256-VCcaD9+X/d4QGYRX7l5aMJ8BWgwfA8d3S7i/HC9rvvw=" crossorigin="anonymous" />
+    <style>
+      body {padding: 1em;}
+      code.hljs {max-width: 60em; margin: 0 auto; max-height: 25em;}
+      div.version-note {text-align: right;}
+
+
+      body { counter-reset : h2; }
+      h2 { counter-reset : h3; }
+      h3 { counter-reset : h4; }
+      h4 { counter-reset : h5; }
+      h5 { counter-reset : h6; }
+
+      article h2:before {
+        content : counter(h2,upper-roman) ". ";
+        counter-increment : h2;
+      }
+
+      article h3:before {
+        content : counter(h2,upper-roman) "." counter(h3,decimal) ". ";
+        counter-increment : h3;
+      }
+
+      article h4:before {
+        content : counter(h2,upper-roman) "." counter(h3,decimal) "." counter(h4,decimal) ". ";
+        counter-increment : h4;
+      }
+
+      article h5:before {
+        content : counter(h2,upper-roman) "." counter(h3,decimal) "." counter(h4,decimal) "." counter(h5,decimal) ". ";
+        counter-increment : h5;
+      }
+
+      article h6:before {
+        content : counter(h2,upper-roman) "." counter(h3,decimal) "." counter(h4,decimal) "." counter(h5,decimal) "." counter(h6,decimal) ". ";
+        counter-increment : h6;
+      }
+
+      h2.nocount:before, h3.nocount:before, h4.nocount:before, h5.nocount:before, h6.nocount:before {
+        content : "";
+        counter-increment : none;
+      }
+
+      article > section {
+        margin-bottom: 1em;
+        padding-bottom: 1em;
+        border-bottom: 2px solid #CCC;
+      }
+    </style>
+  </head>
+  <body>
+    <article class="container">
+      <h1>DSW: Explanatory template</h1>
+
+      <section id="intro">
+        <p>This is example of DMP template in DSW to just show what entities are provided to the template and how it can be used. For more information, visit our <a href="https://docs.ds-wizard.org/en/latest/admin/configuration.html#dmp-templates" target="_blank">documentation</a>. You should also acqutain yourself with <a href="ginger.tobiasdammers.nl/guide/" target="_blank">Ginger</a> (Jinja) templating markup and also <a href="https://www.w3schools.com/html/" target="_blank">HTML</a>/<a href="https://www.w3schools.com/css/" target="_blank">CSS</a>.</p>
+        <p>To develop DMP templates, use <code>html-preview</code> mode instead of downloading them. To do so, change the download link to something like this: <code>http://localhost:3000/questionnaires/[querionnaire-uuid]/dmp?format=<strong>html-preview</strong>&templateUuid=[template-uuid]</code>
+
+        <p>The provided <code>dmp</code> object to the template is instance of <a href="https://github.com/ds-wizard/dsw-server/blob/develop/dsw-server/lib/Api/Resource/Document/DocumentContextDTO.hs#L15" target="_blank"><code>DocumentContextDTO</code></a>. The field prefixes are always stripped off, e.g., <code>_documentContextDTOQuestionnaireUuid</code> becomes <code>questionnaireUuid</code> and therefore it can be use using dot notation as <code>dmp.questionnaireUuid</code>. Optional fields can contain <code>null</code>.</p>
+
+        <div class="version-note"><small class="muted">This template was created for DSW v1.10.x</small></div>
+      </section>
+
+      <section id="basic-metadata">
+        <h2>Basic metadata</h2>
+
+        <dl class="row">
+          <dt class="col-4"><code>dmp.uuid</code></dt>
+          <dd class="col-8">UUID of the created document (<code>{{ dmp.uuid }}</code>)</dd>
+
+          <dt class="col-4"><code>dmp.questionnaireUuid</code></dt>
+          <dd class="col-8">UUID of the questionnaire (<code>{{ dmp.questionnaireUuid }}</code>)</dd>
+
+          <dt class="col-4"><code>dmp.questionnaireName</code></dt>
+          <dd class="col-8">name of the questionnaire (<code>{{ dmp.questionnaireName }}</code>)</dd>
+
+          <dt class="col-4"><code>dmp.level</code></dt>
+          <dd class="col-8">phase/level of the questionnaire as integer (<code>{{ dmp.level }}</code>)</dd>
+
+          <dt class="col-4"><code>dmp.createdAt</code></dt>
+          <dd class="col-8">timestamp when the questionnaire was created (<code>{{ dmp.createdAt }}</code>)</dd>
+
+          <dt class="col-4"><code>dmp.updatedAt</code></dt>
+          <dd class="col-8">timestamp when the questionnaire was updated (<code>{{ dmp.updatedAt }}</code>)</dd>
+        </dl>
+
+        <h3>Organization</h3>
+
+        Organization details set for the DSW instance are accessible through <code>dmp.organization</code> with its <code>name</code> and <code>organizationId</code>.
+
+        <pre><code class="javascript">{{ dmp.organization|json }}</code></pre>
+
+        <h3>User (author)</h3>
+
+        You can use metadata about author of the document (i.e. user who filled the questionnaire) using <code>dmp.createdBy</code>. Important fields of user are <code>email</code>, <code>name</code> (firstname), <code>surname</code> (lastname), and eventually <code>role</code> (which is one of ADMIN, RESEARCHER, and DATASTEWARD). Currently, this field contains <code>null</code> if the questionnaire is public (not private) and true author cannot be assured.
+
+        <pre><code class="javascript">{{ dmp.createdBy|json }}</code></pre>
+      </section>
+
+      <section id="configuration">
+        <h2>Configuration</h2>
+
+        <p>The <code>dmp.config</code> contains basic configurations needed for template rendering. If you need some extra, let us know that it should be extended and why.</p>
+
+        <pre><code class="javascript">{{ dmp.config|json }}</code></pre>
+
+        <h2>Knowledge Model</h2>
+
+        <p>This part describes <code>dmp.knowledgeModel</code> in higher detail.</p>
+
+        <p>This object contains the following basic data:</p>
+
+        <dl class="row">
+          <dt class="col-4"><code>dmp.knowledgeModel.uuid</code></dt>
+          <dd class="col-8">UUID of the knowledge model</dd>
+
+          <dt class="col-4"><code>knowledgeModel.name</code></dt>
+          <dd class="col-8">name of the knowledge model</dd>
+        </dl>
+      </section>
+
+      <section id="knowledge-model">
+        <h2>Knowledge model</h2>
+
+        <h3>Lists of UUIDs</h3>
+
+        <p>Variable <code>dmp.knowledgeModel</code> contains three lists of UUIDs that are related to the top-level entities:</p>
+
+        <dl class="row">
+          <dt class="col-4"><code>dmp.knowledgeModel.chapterUuids</code></dt>
+          <dd class="col-8">list of chapter UUIDs</dd>
+
+          <dt class="col-4"><code>dmp.knowledgeModel.tagUuids</code></dt>
+          <dd class="col-8">list of tag UUIDs</dd>
+
+          <dt class="col-4"><code>dmp.knowledgeModel.integrationUuids</code></dt>
+          <dd class="col-8">list of integration UUIDs</dd>
+        </dl>
+
+        <p>All of these UUIDs can be used to find the entity in the entities field that contains lookup dictionaries.</p>
+
+        <h3>Entities</h3>
+
+        <p>All other entities of the knowledge models are stored in this field that is then divided to separate types. For each type, there is a lookup dictionary that maps UUID with the entity.</p>
+
+        <h4>Chapters</h4>
+
+        <p>Chapters are located in <code>dmp.knowledgeModel.entities.chapters</code> and each chapter contains then its <code>uuid</code>, <code>title</code>, <code>text</code>, and list of question UUIDs in <code>questionUuids</code>.</p>
+
+        <pre><code class="javascript">{{ dmp.knowledgeModel.entities.chapters|json }}</code></pre>
+
+        <h4>Questions</h4>
+
+        <p>Questions are located in <code>dmp.knowledgeModel.entities.questions</code> and each question contains then its <code>uuid</code>, <code>title</code>, <code>text</code>, <code>requiredLevel</code> (integer), <code>questionType</code> and eventually <code>valueType</code> in case of <code>"ValueQuestion"</code>, and then lists of related UUIDs: <code>tagUuids</code>, <code>referenceUuids</code>, <code>expertUuids</code>, and in case of <code>"OptionsQuestion"</code> also <code>answerUuids</code>. If question type is <code>"ListQuestion"</code>, then there is <code>itemTemplateQuestionUuids</code> that contains list of question UUIDs as followups for each item of the list.</p>
+
+        <pre><code class="javascript">{{ dmp.knowledgeModel.entities.questions|json }}</code></pre>
+
+        <h4>Answers</h4>
+
+        <p>Answers are located in <code>dmp.knowledgeModel.entities.answers</code> and each answer contains then its <code>uuid</code>, <code>label</code>, <code>advice</code> (optional), list of follow up question UUIDs <code>followUpUuids</code>, and list of <code>metricMeasures</code> where each is an object containing <code>weight</code>, <code>measure</code>, and <code>metricUuid</code>.</p>
+
+        <pre><code class="javascript">{{ dmp.knowledgeModel.entities.answers|json }}</code></pre>
+
+        <h4>References</h4>
+
+        <p>Each reference of the <code>dmp.knowledgeModel.entities.references</code> list contains <code>uuid</code> and its type in field <code>referenceType</code>. In case of <code>"CrossReference"</code>, <code>targetUuid</code> and <code>description</code> are present. For <code>"ResourcePageReference"</code>, only <code>shortUuid</code> is present to reference specific part of <a href="https://www.crcpress.com/Data-Stewardship-for-Open-Science-Implementing-FAIR-Principles/Mons/p/book/9780815348184" target="_blank">the book</a> to build link such as <code>https://demo.ds-wizard.org/book-references/atq</code>. Finally <code>"URLReference"</code>, contains <code>url</code> and <code>label</code>.</p>
+
+        <pre><code class="javascript">{{ dmp.knowledgeModel.entities.references|json }}</code></pre>
+
+        <h4>Experts</h4>
+
+        <p>Each expert from <code>dmp.knowledgeModel.entities.experts</code> list contains the <code>uuid</code>, <code>name</code>, and <code>email</code>.</p>
+
+        <pre><code class="javascript">{{ dmp.knowledgeModel.entities.experts|json }}</code></pre>
+
+
+        <h4>Tags</h4>
+
+        <p>Each tag from <code>dmp.knowledgeModel.entities.tags</code> list contains the <code>uuid</code>, <code>name</code>, <code>description</code>, and <code>color</code> (HEX code).</p>
+
+        <pre><code class="javascript">{{ dmp.knowledgeModel.entities.tags|json }}</code></pre>
+      </section>
+
+      <section id="replies">
+        <h2>Questionnaire Replies</h2>
+
+        <p>List <code>dmp.questionnaireReplies</code> contains reply objects. Each of them has a <code>path</code> which is a dot-concatenated list of UUIDs (and in case of list question answers also branch index). It is used for unambiguous relation between question/answer in KM and its reply in questionnaire. Then there is <code>value</code> that contains <code>type</code> and <code>value</code> of certain type based on the type. For <code>"ItemListReply"</code> it contains number of list answers. </p>
+        
+        <pre><code class="javascript">{{ dmp.questionnaireReplies|json }}</code></pre>
+      </section>
+
+      <section id="report">
+        <h2>Report</h2>
+
+        <p>The <code>dmp.report</code> object contains per-chapter reports containing indications of two types. First, there are indications for metrics. Then, it contains indication about number of answered and unanswered questions. If questions related to metrics are filled, there is also report of metrics.</p>
+
+        <pre><code class="javascript">{{ dmp.report|json }}</code></pre>
+      </section>
+
+      <section id="definitions">
+        <h2>Static definitions</h2>
+
+        <p>Metrics and phases (or levels) are static definitions and are accessible from template as well using <code>dmp.metrics</code> and <code>dmp.levels</code>. It can be used to display explanations in the template, referencing from other parts of the KM, and so on. See below the details, how the entities look. Currently, those entities are the same for all knowledge models and questionnaires.</p>
+
+        <h3>Metrics</h3>
+
+        <p>List of metrics with its <code>title</code>, <code>description</code>, and <code>abbreviation</code> is present in <code>dmp.metrics</code>.</p>
+        
+        <pre><code class="javascript">{{ dmp.metrics|json }}</code></pre>
+
+        <h3>Phases</h3>
+
+        <p>List of phases with its <code>title</code>, <code>description</code>, and <code>level</code> (integer) is present in <code>dmp.levels</code>.</p>
+
+        <pre><code class="javascript">{{ dmp.levels|json }}</code></pre>
+      </section>
+
+      <section id="package">
+        <h2>Package</h2>
+
+        <p>Metadata about the KM package are located in <code>dmp.package</code>. Important fields are <code>name</code>, <code>id</code>, <code>description</code>, <code>kmId</code>, <code>organizationId</code>, and <code>version</code>. It can be used to state information about the KM used.</p>
+
+        <pre><code class="javascript">{{ dmp.package|json }}</code></pre>
+      </section>
+
+    </article>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js" integrity="sha256-1zu+3BnLYV9LdiY85uXMzii3bdrkelyp37e0ZyTAQh0=" crossorigin="anonymous"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+  </body>
+</html>

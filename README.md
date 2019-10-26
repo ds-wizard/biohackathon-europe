@@ -45,6 +45,8 @@ For more information, visit the [DSW documentation](https://docs.ds-wizard.org).
 6. Now you should see the DMP document in the browser instead of downloading it. It is "live" - you can edit your `<template-name>.html.j2` file, save it, refresh the tab in your browser and it will show the new content. You do not have to restart the DSW nor to close the tab.
 7. Work iteratively on the template to display what you need. For investigating provided structures, you can print them out into some `<pre>` or take a look in [our documentation](https://docs.ds-wizard.org/en/latest/admin/configuration.html#dmp-templates).
 
+TIP: You can use prepared *Hackathon Explanatory Template* to explore what data are provided to the template. Exploration can be both in the Wizard and also in `dmp-templates/explanatory.html.j2`.
+
 ## Possible configurations
 
 You can change the configurations in the `config` folder. For example, you can change the color to your favorite or edit the welcome message/warning.
