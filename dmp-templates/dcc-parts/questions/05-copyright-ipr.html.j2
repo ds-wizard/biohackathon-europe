@@ -1,6 +1,131 @@
 <div id="q-ethical-issues" class="question">
   <h3>How will you manage copyright and Intellectual Property Rights (IPR) issues?</h3>
   <p class="answer">
+    {# Open philosophy #}
+    {%- set asOpenAsPossibleUuid = "6516eae1-98b2-48f2-9862-b5fb140cfad7" -%}
+    {%- set asOpenAsPossibleYesAnswerUuid = "67a8f6e1-50db-4b04-b1fa-d52941f4e535" -%}
+    {%- call (asOpenAsPossibleReply) withReply(asOpenAsPossibleUuid) -%}
+      {%- if asOpenAsPossibleReply.value.value == asOpenAsPossibleYesAnswerUuid -%}
+        <p>We will be working with the philosophy <em>as open as possible</em> for your data.</p>
+      {%- endif -%}
+    {%- endcall -%}
 
+    {# Can open data #}
+    {%- set canOpenUuid = "a549d10b-aa46-4c0c-863f-30219ac5ecce" -%}
+    {%- set canOpenNoAnswerUuid = "b3739ebd-2d8e-42d3-9425-a7d6d1b26c79" -%}
+    {%- set canOpenYesAnswerUuid = "8c33553c-9603-4156-82d7-85ab3d7de090" -%}
+    {%- set closedLegalReasonsUuid = "c010e830-bd89-460d-9498-cb41e7ffeb87" -%}
+    {%- set closedLegalReasonsYesAnswerUuid = "aac95530-2978-4759-803b-64721533faf0" -%}
+    {%- set closedBusinessReasonsUuid = "85a9d872-3d41-4560-82c4-b850a6e2d5ac" -%}
+    {%- set closedBusinessReasonsPatentsAnswerUuid = "1c377b4c-bd6f-457e-8e7e-06efcd1b6444" -%}
+    {%- set closedBusinessReasonsOtherAnswerUuid = "0cfc22ec-5551-4a37-84ec-308c85440af5" -%}
+    {%- set closedBusinessReasonsOtherUuid = "43370b85-0ee0-4f0f-b7de-9b04a54a2480" -%}
+    {%- set closedOtherReasonsUuid = "c10f9098-5b1c-4abc-adaa-bdef2fb537ca" -%}
+    {%- set closedOtherReasonsPapersAnswerUuid = "cb052963-c573-4567-a462-4a5444a87808" -%}
+    {%- set closedOtherReasonsOtherAnswerUuid = "2b755a90-8a43-41c0-9020-5e2b9ca8f88e" -%}
+    {%- set closedOtherReasonsOtherUuid = "b289fdcc-aedc-496e-8169-e0bbe2346d1f" -%}
+    {%- set limitedEmbargoUuid = "f5c12fcf-15d0-44ba-a53c-49ea9d7f620f" -%}
+    {%- set limitedEmbargoIndefinitelyAnswerUuid = "3da39a55-18e5-4b0a-8da1-5b7fc5260ad1" -%}
+    {%- set limitedEmbargoReleasedSoonAnswerUuid = "82f84d7e-338c-46bc-9785-42df560c01ed" -%}
+    {%- set limitedEmbargoReleasedFixedAnswerUuid = "1b120967-803b-458b-b565-dbee6a785509" -%}
+    {%- call (openDataReplies) mapReplies([
+      canOpenUuid, closedLegalReasonsUuid, closedBusinessReasonsUuid, closedOtherReasonsUuid, limitedEmbargoUuid, closedBusinessReasonsOtherUuid, closedOtherReasonsOtherUuid
+    ]) -%}
+      {%- set canOpenAnswerUuid = openDataReplies[0][0].value.value -%}
+      {%- if canOpenAnswerUuid == canOpenNoAnswerUuid -%}
+        {%- set closedLegalReasonsAnswerUuid = openDataReplies[1][0].value.value -%}
+        {%- set closedBusinessReasonsAnswerUuid = openDataReplies[2][0].value.value -%}
+        {%- set closedOtherReasonsAnswerUuid = openDataReplies[3][0].value.value -%}
+        {%- set limitedEmbargoAnswerUuid = openDataReplies[4][0].value.value -%}
+        {%- set closedBusinessReasonsOtherText = openDataReplies[5][0].value.value -%}
+        {%- set closedOtherReasonsOtherText = openDataReplies[6][0].value.value -%}
+        {%- set legalReasons = closedLegalReasonsAnswerUuid == closedLegalReasonsYesAnswerUuid -%}
+        {%- set businessReasons = closedBusinessReasonsAnswerUuid == closedBusinessReasonsPatentsAnswerUuid || closedBusinessReasonsAnswerUuid == closedBusinessReasonsOtherAnswerUuid -%}
+        {%- set otherReasons = closedOtherReasonsAnswerUuid == closedOtherReasonsPapersAnswerUuid || closedOtherReasonsAnswerUuid == closedOtherReasonsOtherAnswerUuid -%}
+        {%- set reasons = [legalReasons, businessReasons, otherReasons] -%}
+            <p>
+            The data cannot become completely open immediately because 
+        {%- if any(reasons) -%}
+          {%- if length(filter(reasons, (r) -> r)) == 1 -%}
+            {%- if legalReasons %}
+              of legal reasons.
+            {%- elif businessReasons && closedBusinessReasonsAnswerUuid == closedBusinessReasonsPatentsAnswerUuid %}
+              of patent-related business reasons.
+            {%- elif businessReasons && closedBusinessReasonsOtherAnswerUuid %}
+              of non-patent business reasons{{ closedBusinessReasonsOtherText ? ": " ~ closedBusinessReasonsOtherText|capitalize : "" }}{{ endswith(closedBusinessReasonsOtherText, ".") ? "" : "." }}
+            {%- elif otherReasons && closedOtherReasonsAnswerUuid == closedOtherReasonsPapersAnswerUuid %}
+              we want to publish a paper first.
+            {%- elif otherReasons && closedOtherReasonsAnswerUuid == closedOtherReasonsOtherAnswerUuid %}
+              we have other than paper-publishing reasons{{ closedOtherReasonsOtherText ? ": " ~ closedOtherReasonsOtherText|capitalize : "" }}{{ endswith(closedOtherReasonsOtherText, ".") ? "" : "." }}
+            {%- endif -%}
+          {%- else %}
+            of:
+            <ul>
+              {%- if legalReasons %}
+                <li>legal reasons</li>
+              {%- endif -%}
+              {%- if businessReasons && closedBusinessReasonsAnswerUuid == closedBusinessReasonsPatentsAnswerUuid %}
+                <li>patent-related business reasons</li>
+              {%- elif businessReasons && closedBusinessReasonsOtherAnswerUuid %}
+                <li>non-patent business reasons{{ closedBusinessReasonsOtherText ? ": " ~ closedBusinessReasonsOtherText : "" }}</li>
+              {%- endif -%}
+              {%- if otherReasons && closedOtherReasonsAnswerUuid == closedOtherReasonsPapersAnswerUuid %}
+                <li>we want to publish a paper first</li>
+              {%- elif otherReasons && closedOtherReasonsAnswerUuid == closedOtherReasonsOtherAnswerUuid -%}
+                <li>we have other than paper-publishing reasons{{ closedOtherReasonsOtherText ? ": " ~ closedOtherReasonsOtherText : "" }}</li>
+              {%- endif -%}
+            </ul>
+          {%- endif -%}
+          </p>
+        {%- else -%}
+          <p>The data cannot become completely open immediately.</p>
+        {%- endif -%}
+
+        {%- if limitedEmbargoAnswerUuid == limitedEmbargoIndefinitelyAnswerUuid -%}
+          <p>Limited embargo cannot be used because some restricted data will be embargoed indefinitely.</p>
+        {%- elif limitedEmbargoAnswerUuid == limitedEmbargoReleasedSoonAnswerUuid -%}
+          <p>Data will be released only as soon as restrictions are falling away.</p>
+        {%- elif limitedEmbargoAnswerUuid == limitedEmbargoReleasedFixedAnswerUuid -%}
+          <p>Data that is not legally restrained will be released after a fixed time period, unconditionally.</p>
+        {%- endif -%}
+      {%- elif canOpenAnswerUuid == canOpenYesAnswerUuid -%}
+        <p>All of our data can become completely open immediately.</p>
+      {%- endif -%}
+    {%- endcall -%}
+
+    {# Non reference data - license #}
+    {%- set nonReferenceDataSetsUuid = "be872000-cb98-442f-999c-ca3ef58dcfe8" -%}
+    {%- call (reply) withReply(nonReferenceDataSetsUuid) -%}
+      {%- set nNonReferenceDataSets = reply.value.value -%}
+      {%- if nNonReferenceDataSets > 0 -%}
+        <h4>Data we reuse</h4>
+        <ul>
+        {%- for i in range(nNonReferenceDataSets - 1) -%}
+          {%- set pathPrefix = nonReferenceDataSetsUuid ~ "." ~ i ~ "." -%}
+          {%- set nameUuid = "44120979-2840-4522-8297-df13f7fd1e3a" -%}
+          {%- set conditionsUuid = "69999c2c-2710-480e-b8ac-8a8fc6f582e5" -%}
+          {# TODO! #}
+          {%- call (consentReplies) mapReplies([
+            pathPrefix ~ nameUuid, 
+            pathPrefix ~ conditionsUuid
+          ]) -%}            
+            {%- set dataSetNameReply = consentReplies[0][0] -%}
+            <li>
+              {%- if dataSetNameReply.value.value.type == "IntegrationValue" -%}
+                {%- call (integration) getIntegrationForQuestion(uuidDataSetName) -%}
+                  {%- call (integrationLink) createIntegrationLink(integration, dataSetNameReply.value.value.id) -%}
+                    <a href="{{ integrationLink }}" target="_blank"><strong>{{ dataSetNameReply.value.value.value }}</strong></a>
+                  {%- endcall -%}
+                {%- endcall -%}
+              {%- else -%}
+                <strong>{{ dataSetNameReply.value.value.value }}</strong>
+              {%- endif -%}
+              {# TODO! #}
+              </li>
+          {%- endcall -%}
+        {%- endfor -%}
+        </ul>
+      {%- endif -%}
+    {%- endcall -%}
   </p>
 </div>
