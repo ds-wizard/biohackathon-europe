@@ -183,69 +183,27 @@
       {%- endif -%}
     {%- endcall -%}
 
-    {# Published datasets #}
-    {%- set publishedDataSetsUuid = "4e0c1edf-660c-4ebf-81f5-9fa959dead30" -%}
-    {%- set publishedDataSetNameUuid = "b0949d09-d179-4491-9fb4-14b0deb9f862" -%}
-    {%- set conditionsUuid = "ca0f9465-3116-4824-8651-b592151c5368" -%}
-    {%- set conditionsCC0AnswerUuid = "d27a6e0f-55ea-4b25-bfb9-dcb4d6346fe0" -%}
-    {%- set conditionsCCBYAnswerUuid = "9186e183-e328-41f9-b012-149d0bbad9ea" -%}
-    {%- set conditionsOtherAnswerUuid = "734d5f4e-91c0-4019-8164-8c70c2e0c8f2" -%}
-    {%- set conditionsOtherUuid = "30426255-b153-4f3e-bf20-f13573160a64" -%}
-    {%- set conditionsAccessUuid = "f78fb7e9-2f26-493c-a19b-04e153c17274" -%}
-    {%- set conditionsAccessRequestAnswerUuid = "15e7beff-1d71-4515-9517-26e222e672e5" -%}
-    {%- set conditionsAccessCommitteeAnswerUuid = "f68a6141-3f78-4efb-8a80-2a482e75a862" -%}
-    {%- set conditionsAccessAnotherAnswerUuid = "e856687f-772c-462a-b0e1-071ffffaab8e" -%}
-    {%- set conditionsAccessAnotherUuid = "8a7e4cc0-8806-4c7a-a662-66e38376769c" -%}
-    {%- set conditionsAccessMetadataUuid = "a572c436-5d57-4385-ac9a-d6f117881444" -%}
-    {%- set conditionsAccessMetadataNoAnswerUuid = "70e54988-5124-45cc-8803-2a7443e41b3d" -%}
-    {%- set conditionsAccessMetadataYesAnswerUuid = "438aa606-da1d-49f7-8de0-e5fbe64feaa8" -%}
-    {%- call (reply) withReply(publishedDataSetsUuid) -%}
-      {%- set pathPrefix = publishedDataSetsUuid ~ "." -%}
-      {%- set nDataSets = reply.value.value -%}
-      {%- if nDataSets > 0 -%}
-        <h4>Data we publish</h4>
-        <ul>
-          {%- for i in range(nDataSets - 1) -%}
-            {%- set pathPrefixInner = i ~ "." -%}
-            {%- call (xreplies) mapReplies([
-              pathPrefixInner ~ publishedDataSetNameUuid,
-              pathPrefixInner ~ conditionsUuid,
-              pathPrefixInner ~ conditionsUuid ~ "." ~ conditionsOtherAnswerUuid ~ "." ~ conditionsOtherUuid,
-              pathPrefixInner ~ conditionsUuid ~ "." ~ conditionsOtherAnswerUuid ~ "." ~ conditionsAccessUuid,
-              pathPrefixInner ~ conditionsUuid ~ "." ~ conditionsOtherAnswerUuid ~ "." ~ conditionsAccessUuid ~ "." ~ conditionsAccessAnotherAnswerUuid ~ "." ~ conditionsAccessAnotherUuid,
-              pathPrefixInner ~ conditionsUuid ~ "." ~ conditionsOtherAnswerUuid ~ "." ~ conditionsAccessMetadataUuid
-            ]) -%}
-              {%- set publishedDataSetName = xreplies[0][0].value.value -%}
-              {%- set conditionsAnswerUuid = xreplies[1][0].value.value -%}
-              {%- set conditionsOtherText = xreplies[2][0].value.value -%}
-              {%- set conditionsAccessAnswerUuid = xreplies[3][0].value.value -%}
-              {%- set conditionsAccessAnotherText = xreplies[4][0].value.value -%}
-              {%- set conditionsAccessMetadataAnswerUuid = xreplies[5][0].value.value -%}
-              {%- if conditionsAnswerUuid -%}
-                <li>
-                  <strong>{{ publishedDataSetName ? publishedDataSetName : "(no name given)" }}</strong>
-                  {%- if conditionsAnswerUuid == conditionsCC0AnswerUuid -%}
-                    <span class="separator">-</span> freely available for any use (public domain or CC0)
-                  {%- elif conditionsAnswerUuid == conditionsCCBYAnswerUuid %}
-                    <span class="separator">-</span> freely available with obligation to quote the source (e.g. CC-BY)
-                  {%- elif conditionsAnswerUuid == conditionsOtherAnswerUuid %}
-                    <span class="separator">-</span> available under some restrictions, which we will follow in our project{{ conditionsOtherText ? ": " ~ conditionsOtherText : "" }}{{ endswith(conditionsOtherText, ".") ? "" : "." }}
-                    {%- if conditionsAccessAnswerUuid == conditionsAccessRequestAnswerUuid %}
-                      Re-users will be able to get access by request to the contact person.
-                    {%- elif conditionsAccessAnswerUuid == conditionsAccessCommitteeAnswerUuid %}
-                      Re-users will be able to get access through a Data Access Committee for the project.
-                    {%- elif conditionsAccessAnswerUuid == conditionsAccessAnotherAnswerUuid %}
-                      Re-users will be able to get access through a specialized process{{ conditionsAccessAnotherText ? ": " ~ conditionsAccessAnotherText : "" }}{{ endswith(conditionsAccessAnotherText, ".") ? "" : "." }}
-                    {%- endif -%}
-                    {%- if conditionsAccessMetadataAnswerUuid == conditionsAccessMetadataYesAnswerUuid %}
-                      The conditions will be published as part of open metadata.
-                    {%- endif -%}
-                  {%- endif -%}
-                </li>
-              {%- endif -%}
-            {%- endcall -%}
-          {%- endfor -%}
-        </ul>
+    {# ownership #}
+    {%- set ownershipUuid = "cb7d17a8-30c0-489d-a43c-702b27d97611" -%}
+    {%- set ownershipNoOwnerAnswerUuid = "f310952b-e946-4315-bb32-bf127d1bf96a" -%}
+    {%- set ownershipPIAnswerUuid = "91d6ee6f-c501-4d1c-a6e7-9da1789f68de" -%}
+    {%- set ownershipInstituteAnswerUuid = "ef4ac36a-eea0-42b4-8292-b89090a1b5ef" -%}
+    {%- set ownershipConsortiumAnswerUuid = "115a165f-9d3f-440d-a822-4bd2795c264e" -%}
+    {%- set ownershipOtherAnswerUuid = "0fd3cd1c-e0e8-41d5-9beb-3f1faba0fb91" -%}
+    {%- set ownershipOtherUuid = "06655161-9a91-47f4-af3b-9d2a5e6db19b" -%}
+    {%- call (ownershipReplies) mapReplies([ownershipUuid, ownershipOtherUuid]) -%}
+      {%- set ownershipAnswerUuid = ownershipReplies[0][0].value.value -%}
+      {%- set ownershipOtherText = ownershipReplies[1][0].value.value -%}
+      {%- if ownershipAnswerUuid == ownershipNoOwnerAnswerUuid -%}
+        <p>Our data is legally not copyrightable, there is no legal owner.</p>
+      {%- elif ownershipAnswerUuid == ownershipPIAnswerUuid -%}
+        <p>All data will be owned by the Principal Investigator.</p>
+      {%- elif ownershipAnswerUuid == ownershipInstituteAnswerUuid -%}
+        <p>All data will be owned by the institute.</p>
+      {%- elif ownershipAnswerUuid == ownershipConsortiumAnswerUuid -%}
+        <p>We have a consortium agreement that arranges Intellectual Property.</p>
+      {%- elif (ownershipAnswerUuid == ownershipOtherAnswerUuid) && ownershipOtherText -%}
+        <p>We have made the following arrangements regarding the data ownership: {{ ownershipOtherText|capitalize }}{{ endswith(ownershipOtherText, ".") ? "" : "." }}</p>
       {%- endif -%}
     {%- endcall -%}
   </p>
