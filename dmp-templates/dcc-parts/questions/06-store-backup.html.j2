@@ -28,9 +28,14 @@
         <p>Data that project members themselves store adequately backed up and traceable. Therefore data are protected against both equipment failure and human error.</p>
       {%- endif -%}
 
-      {% set storageChangeLabel = km.entities.answers[storageChangeAnswerUuid].label %}
-      {%- if storageChangeAnswerUuid|in([storageChangeSameAnswerUuid, storageChangeLargeAnswerUuid, storageChangeSmallAnswerUuid, storageChangeMiddleAnswerUuid]) -%}
-        <p>{{ storageChangeLabel|capitalize }}{{ endswith(storageChangeLabel, ".") ? "" : "." }}</p>
+      {%- if storageChangeAnswerUuid == storageChangeSameAnswerUuid -%}
+        <p>Storage needs will be the same during the whole project.</p>
+      {%- elif storageChangeAnswerUuid == storageChangeLargeAnswerUuid -%}
+        <p>Storage needs are large at the beginning and will be reduced later.</p>
+      {%- elif storageChangeAnswerUuid == storageChangeSmallAnswerUuid -%}
+        <p>Storage needs are small at the beginning and will grow later.</p>
+      {%- elif storageChangeAnswerUuid == storageChangeMiddleAnswerUuid -%}
+        <p>Storage needs are largest in the middle of the project.</p>
       {%- endif -%}
 
       {%- if preventLossAnswerUuid == preventLossSufficientAnswerUuid -%}
