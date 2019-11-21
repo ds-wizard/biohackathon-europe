@@ -123,5 +123,25 @@
         <p>We will use other solution than (electronic) lab notebooks to make sure that there is good provenance of the data analysis{{ provenanceOtherText ? ": " ~ provenanceOtherText : "" }}{{ endswith(provenanceOtherText, ".") ? "" : "." }}
       {%- endif -%}
     {%- endcall -%}
+
+    {# Documentation with metadata #}
+    {%- set documentDCUuid = "8d3b85e0-1683-48a5-a650-9f0d9bf8a1a4" -%}
+    {%- set documentDCYesAnswerUuid = "d29ca8b4-0cb6-4678-90fa-e8c72de9073f" -%}
+    {%- set documentW3CUuid = "106df534-f590-416b-8e4a-846edbdc4325" -%}
+    {%- set documentW3CYesAnswerUuid = "42502a61-5384-4611-a207-90cd02de022f" -%}
+    {%- call (documentReplies) mapReplies([documentDCUuid, documentW3CUuid]) -%}
+      {%- set usingDC = documentReplies[0][0].value.value == documentDCYesAnswerUuid -%}
+      {%- set usingW3C = documentReplies[1][0].value.value == documentW3CYesAnswerUuid -%}
+      <p>
+        We will be documenting the data with
+        {%- if usingDC and usingW3C %}
+          Dublin Core metadata and W3C PROV provenance. 
+        {%- elif usingDC %}
+          Dublin Core metadata. 
+        {%- elif usingW3C %}
+          W3C PROV provenance. 
+        {%- endif -%}
+      </p>
+    {%- endcall -%}
   </p>
 </div>
