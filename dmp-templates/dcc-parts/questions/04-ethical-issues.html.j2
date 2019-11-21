@@ -55,6 +55,7 @@
     {%- endcall -%}
 
     {# Collected data #}
+    {%- scope -%}
     {%- set needConsentUuid = "f5e162ee-1077-4ebe-a932-192bc7f67e98" -%}
     {%- set needConsentNoNotCollectAnswerUuid = "d4375763-1af3-48a0-8738-f216b5ceeff0" -%}
     {%- set needConsentNoAnotherLegalAnswerUuid = "e1ae38ed-14fb-4143-8a76-3883bd794b9b" -%}
@@ -105,5 +106,6 @@
         </p>
       {%- endif -%}
     {%- endcall -%}
+    {%- endscope -%}
   </p>
 </div>
