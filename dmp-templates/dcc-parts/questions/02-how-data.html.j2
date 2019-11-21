@@ -273,7 +273,7 @@
               Data in the database will be read-only.
             {%- elif handleChangesAnswerUuid == crudAnswerUuid -%}
               We will be allowing Create, Update and Delete operations for data in the database.
-            {%- elif handleChangesAnswerUuid == reaexpireAnswerUuiddOnlyAnswerUuid -%}
+            {%- elif handleChangesAnswerUuid == expireAnswerUuid -%}
               Modifications will be made by Expiring the existing data and Adding updated data.
             {%- endif -%}
           {%- endcall -%}

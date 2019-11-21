@@ -57,7 +57,7 @@
             {% endcall %}
 
             {% set dataSetEquipmentUuid = "bce52f7f-2256-4afc-9801-2e4da8111470" %}
-            {% call (dataSetEquipmentReply) withReply(pathPrefix ~ uuidDataSetEquipment) %}
+            {% call (dataSetEquipmentReply) withReply(pathPrefix ~ dataSetEquipmentUuid) %}
               <br>It is  
               {% set answerUuid = dataSetEquipmentReply.value.value %}
               {% set isDescribed = "cba473be-2489-4387-8877-ce49cf95a304" %}

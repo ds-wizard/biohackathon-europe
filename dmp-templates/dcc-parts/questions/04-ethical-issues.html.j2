@@ -28,7 +28,7 @@
             {%- set consentOtherText = consentReplies[2][0].value.value -%}
             <li>
               {%- if dataSetNameReply.value.value.type == "IntegrationValue" -%}
-                {%- call (integration) getIntegrationForQuestion(uuidDataSetName) -%}
+                {%- call (integration) getIntegrationForQuestion(nameUuid) -%}
                   {%- call (integrationLink) createIntegrationLink(integration, dataSetNameReply.value.value.id) -%}
                     <a href="{{ integrationLink }}" target="_blank"><strong>{{ dataSetNameReply.value.value.value }}</strong></a>
                   {%- endcall -%}

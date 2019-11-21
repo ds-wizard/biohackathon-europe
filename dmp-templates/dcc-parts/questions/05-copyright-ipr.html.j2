@@ -122,7 +122,7 @@
             {%- if conditionsAnswerUuid -%}
               <li>
                 {%- if dataSetNameReply.value.value.type == "IntegrationValue" -%}
-                  {%- call (integration) getIntegrationForQuestion(uuidDataSetName) -%}
+                  {%- call (integration) getIntegrationForQuestion(nameUuid) -%}
                     {%- call (integrationLink) createIntegrationLink(integration, dataSetNameReply.value.value.id) -%}
                       <a href="{{ integrationLink }}" target="_blank"><strong>{{ dataSetNameReply.value.value.value }}</strong></a>
                     {%- endcall -%}
@@ -160,7 +160,7 @@
             {%- if conditionsAnswerUuid -%}
               <li>
                 {%- if dataSetNameReply.value.value.type == "IntegrationValue" -%}
-                  {%- call (integration) getIntegrationForQuestion(uuidDataSetName) -%}
+                  {%- call (integration) getIntegrationForQuestion(dataSetNameUuid) -%}
                     {%- call (integrationLink) createIntegrationLink(integration, dataSetNameReply.value.value.id) -%}
                       <a href="{{ integrationLink }}" target="_blank"><strong>{{ dataSetNameReply.value.value.value }}</strong></a>
                     {%- endcall -%}
