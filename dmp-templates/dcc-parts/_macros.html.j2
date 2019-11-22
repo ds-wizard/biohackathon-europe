@@ -43,3 +43,11 @@
   {{ caller(integration.itemUrl|replace("${id}", itemId)) }}
 {% endmacro %}
 
+{% macro whenReply(pathSuffix, targetPathSuffix) %}
+  {% for reply in replies %}
+    {% if reply.path|endswith(pathSuffix) &&
+          reply.value.value == targetPathSuffix %}
+      {{ caller(reply) }}
+    {% endif %}
+  {% endfor %}
+{% endmacro %}
