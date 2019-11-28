@@ -1,7 +1,7 @@
 <div id="q-restrictions" class="question">
   <h3>Are any restrictions on data sharing required?</h3>
   <p class="answer">
-    <p>Ethical and legal restrictions are documented under section C. We have used the Data Stewardship Wizard, which made us aware of options to minimize the restrictions.</p>
+    <p>Ethical and legal restrictions are documented under Section C. We have used the Data Stewardship Wizard, which made us aware of options to minimize the restrictions.</p>
 
     {% set openDataQuestionUuid = "a549d10b-aa46-4c0c-863f-30219ac5ecce" %}
     {% set openDataNoAnswerUuid = "b3739ebd-2d8e-42d3-9425-a7d6d1b26c79" %}
@@ -30,7 +30,7 @@
         {% set embargoPeriodAnswerUuid = embargoPeriodReplies[0][0].value.value %}
         {% set embargoPeriodYesAnswerText = embargoPeriodReplies[1][0].value.value %}
 
-        {% if embargoPeriodAnswerUuid == embargoPeriodYesAnswerUuid %}
+        {% if embargoPeriodAnswerUuid == embargoPeriodYesAnswerUuid && embargoPeriodYesAnswerText %}
           <p>The embargo period will be: {{ embargoPeriodYesAnswerText }}</p>
         {% endif %}
       {% endcall %}
